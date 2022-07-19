@@ -1,0 +1,44 @@
+<div class="container">
+  <!-- Why is action="/reminders" since this is a directory and not a file? -->
+  <form action="/reminders" method="POST">
+    <div class="form-group">
+      <label for="title">Title</label>
+      <!-- IMPORTANT: Give your inputs an identifier (name field) -->
+      <input type="text" class="form-control" id="titleInput" placeholder="Title" name="title">
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea class="form-control" id="descriptionInput" rows="3" placeholder="Description" name="description"></textarea>
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+  </form>
+</div>
+
+
+<!-- 
+  Reminders:
+  <form> ... </form>
+  action="URL"
+    Required: Specifies the URL of the application that will process the form
+  method="GET|POST"
+    With GET(the default), the information is appended and sent along with the URL itself
+
+
+  <label> ... </label>
+    used to attach information to controls
+    each label element is associated with exactly one form control
+    label element may contain the form control it may use the for attribute to identify
+      the control by its id value;
+    for="text"
+      Explicitly associated the label with the control by matching the value of the for
+      attribute with the value of the id attribute within the control element
+
+  <input>
+    type="button|checkbox|...|text|url|week": specifies data type and associate form control
+    placeholders="number": provides a short hint or example to help the user enter the
+      correct data or format
+    name="text"
+
+  <textarea>... </textarea>
+    Defines a multiline text entry control
+ -->
