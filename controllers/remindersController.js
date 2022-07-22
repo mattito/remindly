@@ -1,28 +1,27 @@
-let Database = require("../database.js");
-// let myid = 0;
-let remindersController = {
+let userModel = require("../models/userModel").userModel;
+
+const remindersController = {
   list: function(req, res) {
-    res.render("reminders/index", {reminders: Database.cindy.reminders});
+    res.render("reminders/index", {reminders: req.user.reminders});
   },
   new: function(req,res) {
     res.render("reminders/create"); // corresponds to reminders/create.ejs page
   },
   create: function(req, res) {      // info from browser POST request is in req
     let reminder = {
-      id: Database.cindy.reminders.length + 1,    // some ID that uniquely identifies this reminder
+      id: req.user.reminders.length + 1,    // some ID that uniquely identifies this reminder
       title: req.body.title,
       description: req.body.description,
       completed: false
     };
-    Database.cindy.reminders.push(reminder);
+    req.user.reminders.push(reminder);
     // Redirect to the /reminders page
     res.redirect("/reminders");
   },
   listOne: function(req, res) {
     let reminderToFind = parseInt(req.params.id);
-    let searchResult = Database.cindy.reminders.find(function(reminder) {
-      return parseInt(reminder.id) === reminderToFind;
-    });
+    let reminders = req.user.reminders;
+    let searchResult = reminders.find(reminder => parseInt(reminder.id) === reminderToFind);
     // console.log(searchResult);
     if(searchResult != undefined) {    // Can this be rewritten if (!searchResult) { ... }
       res.render("reminders/single-reminder", {reminderItem: searchResult});
@@ -33,7 +32,7 @@ let remindersController = {
   edit: function(req, res) {
     // Find the reminder corresponding to the id
     let reminderToFind = parseInt(req.params.id);
-    let reminders = Database.cindy.reminders;
+    let reminders = req.user.reminders;
     let searchResult = reminders.find(reminder => parseInt(reminder.id) === reminderToFind);
 
     res.render("reminders/edit", { reminderItem: searchResult });
@@ -41,7 +40,7 @@ let remindersController = {
   update: function(req, res) {
     // Find the reminder corresponding to the id
     let reminderToFind = parseInt(req.params.id);
-    let reminders = Database.cindy.reminders;
+    let reminders = req.user.reminders;
     let searchResult = reminders.find(reminder => parseInt(reminder.id) === reminderToFind);
     // Modify reminder's title and description
     searchResult.title = req.body.title;
@@ -51,11 +50,9 @@ let remindersController = {
   delete: function(req,res) {
     let reminderToDelete = parseInt(req.params.id);
 
-    let reminders = Database.cindy.reminders;
+    let reminders = req.user.reminders;
     // use findIndex() instead of find()?
-    let searchResult = reminders.find(function(reminder) {
-      return parseInt(reminder.id) === reminderToDelete;
-    });
+    let searchResult = reminders.find(reminder => parseInt(reminder.id) === reminderToDelete);
 
     // Delete the designated reminder.  Adjust indices for other reminders?
     reminders.splice(reminderToDelete - 1, 1);
@@ -76,3 +73,4 @@ let remindersController = {
 
 
 module.exports = remindersController;
+
