@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { ensureAuthenticated, isAdmin } = require("../middleware/checkAuth");
+const { route } = require("./authRoute");
 
 //------------------------Landing Page-------------------------------//
 router.get("/", (req, res) => {
@@ -13,5 +14,12 @@ router.get("/dashboard", ensureAuthenticated, (req, res) => {
     user: req.user,
   });
 });
+
+//-----------------------Admin Page---------------------------------//
+router.get("/admin", isAdmin, (req, res) => {
+  res.render("admin", {
+    user: req.user,
+  })
+})
 
 module.exports = router;

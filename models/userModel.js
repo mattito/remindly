@@ -4,6 +4,7 @@ const database = [
     name: "Jimmy Smith",
     email: "jimmy123@gmail.com",
     password: "jimmy123!",
+    role: "user",
     reminders: [],
   },
   {
@@ -11,6 +12,7 @@ const database = [
     name: "Johnny Doe",
     email: "johnny123@gmail.com",
     password: "johnny123!",
+    role: "user",
     reminders: [],
   },
   {
@@ -18,6 +20,7 @@ const database = [
     name: "Jonathan Chen",
     email: "jonathan123@gmail.com",
     password: "jonathan123!",
+    role: "user",
     reminders: [],
   },
   {
@@ -25,6 +28,7 @@ const database = [
     name: "Matthew Quiring",
     email: "mattquiring06@gmail.com",
     password: "matt06",
+    role: "admin",
     reminders: [],
   },
   {
@@ -32,6 +36,7 @@ const database = [
     name: "Jonathan",
     email: "jonathan1324@gmail.com",
     password: "registereduser1324!",
+    role: "user",
     reminders: [],
   }
 ];
@@ -55,6 +60,7 @@ const userModel = {
     let newUser = {
       id: profile.id,
       name: profile.displayName,
+      role: "user",
       reminders: []
     };
     database.push(newUser);
