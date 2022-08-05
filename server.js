@@ -3,6 +3,8 @@ const expressLayouts = require("express-ejs-layouts");
 const session = require("express-session");
 const path = require("path");
 const port = process.env.port || 8001;
+require('dotenv').config();
+// console.log(process.env['GITHUB_ID'], process.env['GITHUB_SECRET']);
 
 
 const app = express();
@@ -55,7 +57,8 @@ app.use("/reminders", remindersRoute);
 app.use("/help", helpRoute);
 
 
-// http:localhost:8000
+
+// http:localhost:8001
 app.listen(port, () => {
   console.log(`Server has started on port ${port}`);
 });

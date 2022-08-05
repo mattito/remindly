@@ -1,5 +1,6 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const GitHubStrategy = require("passport-github").Strategy;
 const userController = require("../controllers/userController");
 
 const localLogin = new LocalStrategy(
@@ -15,7 +16,21 @@ const localLogin = new LocalStrategy(
   }
 );
 
-passport.serializeUser((user,done) => {
+const githubLogin = new GitHubStrategy(
+  {
+    clientID: process.env['GITHUB_ID'],
+    clientSecret: process.env['GITHUB_SECRET'],
+    callbackURL: "http://localhost:8001/auth/github/callback",
+  },
+  function (accessToken, refreshToken, profile, done) {
+    console.log('profile in githubLogin ', profile);
+    let user = userController.getUserByGitHubIdOrCreate(profile);
+    // return cb(null, user);  // The original suggestion was to include this...?
+    return done(null, user);
+  }
+)
+
+passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
@@ -28,4 +43,4 @@ passport.deserializeUser(function (id, done) {
   }
 });
 
-module.exports = passport.use(localLogin);
+module.exports = passport.use(githubLogin).use(localLogin);
